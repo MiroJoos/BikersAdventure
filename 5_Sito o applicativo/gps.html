@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test GPS</title>
+    </head>
+    <body>
+        <p id="currentPosition">Coordinates</p>
+        <script>
+            var id, target, options;
+            var position = document.getElementById("currentPosition");
+
+            /**
+             * I metodi success(pos) ed error(err) sono necessari per il funzionamento dell'api,
+             * sono un formato standard che serve all'api per geolocalizzare le persone.
+             * Tramite pos posso accedere a latitudine e longitudine e la precisione dei dati (in metri).
+             * Tramite err posso accedere al codice di errore e al messaggio dell'api per comunicare all'utente il problema.
+             */
+
+            function success(pos) {
+                var crd = pos.coords;
+
+                position.innerHTML = "coords: " + crd.latitude + ", " + crd.longitude;
+
+                /**
+                 * Questo metodo serve per interrompere la geolocalizzazione continua. 
+                 */
+                //navigator.geolocation.clearWatch(id);
+            }
+
+            function error(err) {
+                position.innerHTML = 'ERROR(' + err.code + '): ' + err.message;
+            }
+
+            options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 0
+            };
+
+            id = navigator.geolocation.watchPosition(success, error, options);
+        </script>
+    </body>
+</html>

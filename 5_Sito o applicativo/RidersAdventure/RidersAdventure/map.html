@@ -1,0 +1,54 @@
+<html><body>
+    <div id="mapdiv"></div>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script>
+
+        var id, target, options; // GPS
+
+        map = new OpenLayers.Map("mapdiv"); // MAP
+        map.addLayer(new OpenLayers.Layer.OSM());
+        var zoom = 16;
+
+        /**
+         * I metodi success(pos) ed error(err) sono necessari per il funzionamento dell'api,
+         * sono un formato standard che serve all'api per geolocalizzare le persone.
+         * Tramite pos posso accedere a latitudine e longitudine e la precisione dei dati (in metri).
+         * Tramite err posso accedere al codice di errore e al messaggio dell'api per comunicare all'utente il problema.
+         */
+
+        function success(pos) {
+            var crd = pos.coords;
+
+            /**
+             * Questo metodo serve per interrompere la geolocalizzazione continua. 
+             */
+            //navigator.geolocation.clearWatch(id);
+
+                var lonLat = new OpenLayers.LonLat(crd.longitude, crd.latitude)
+                .transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    map.getProjectionObject() // to Spherical Mercator Projection
+                );
+
+                var markers = new OpenLayers.Layer.Markers("Markers"); // Create a new layer for marker
+
+                map.addLayer(markers);  // Add a new layer with markers
+
+                markers.addMarker(new OpenLayers.Marker(lonLat)); // Add new market at current position
+
+                map.setCenter(lonLat, zoom); // set map position
+            }
+
+            function error(err) {
+                position.innerHTML = 'ERROR(' + err.code + '): ' + err.message;
+            }
+
+            options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 0
+            };
+
+            id = navigator.geolocation.watchPosition(success, error, options);
+    </script>
+  </body></html>
