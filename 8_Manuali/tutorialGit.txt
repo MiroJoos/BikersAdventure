@@ -1,0 +1,23 @@
+1) Avviare px-py
+
+
+
+2) Aprire la cartella.git-> file config, aggiungere in fondo:
+
+[user]
+name = nome.cognome
+token = <token>
+[http]
+proxy = http://localhost:5865
+[https]
+proxy = http://localhost:5865
+
+
+3) Facendo così basta farlo una volta: in alternativa modificare il file .gitconfig nel percorso dello spazio condiviso utenti, cancellare tutto e aggiungere:
+[user]
+name = nome.cognome
+token = <token>
+[http]
+proxy = http://localhost:5865
+[https]
+proxy = http://localhost:5865
