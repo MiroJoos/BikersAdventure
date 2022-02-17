@@ -1,3 +1,5 @@
+https://vuejs.org/guide/quick-start.html#with-build-tools
+
 controllare versione node (8.3.1): npm --version
 
 avviare node: recarsi nella cartella riders adventure e digitare:
