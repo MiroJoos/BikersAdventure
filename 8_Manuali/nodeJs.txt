@@ -1,0 +1,4 @@
+controllare versione node (8.3.1): npm --version
+
+avviare node: recarsi nella cartella riders adventure e digitare:
+npm run dev
