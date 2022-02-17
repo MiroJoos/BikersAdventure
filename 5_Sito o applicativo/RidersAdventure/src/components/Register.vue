@@ -1,5 +1,8 @@
 <template>
     <div id="register">
+        <input type="text" placeholder="NomeUtente" v-model="nomeUtente" required>
+        <br>
+        <br>
         <input type="email" placeholder="E-Mail" v-model="email" required>
         <br>
         <br>
@@ -20,6 +23,7 @@
     export default {
         data() {
             return {
+                nomeUtente:"",
                 email: "",
                 password: "",
                 errorMsg: ""
@@ -74,6 +78,32 @@
                 } else {
                     this.errorMsg = "La password non soddisfa i requisiti minimi"
                 }
+
+                function registerNewUser() {
+                    var email = document.getElementById("email").value;
+                    var password = document.getElementById("password").value;
+                    var nickname = document.getElementById("nickname").value;
+                    var uid;
+
+                    // creare nuovo account
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            var uid = userCredential.user.uid;
+                            db.ref("users/" + uid).set({
+                                uid,
+                                email,
+                                nickname,
+                                ban: false,
+                                admin: false,
+                            });
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            document.getElementById('login_error').innerHTML = error.message;
+                        });
+                }
+
             }
         }
     }
