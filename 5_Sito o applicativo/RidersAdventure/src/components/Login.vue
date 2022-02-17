@@ -1,13 +1,9 @@
 <template>
     <div id="login">
-        <label for="email">E-Mail:</label>
-        <br>
-        <input type="text" v-model="email" required>
+        <input type="text" placeholder="E-Mail" v-model="email" required>
         <br>
         <br>
-        <label for="password">Password:</label>
-        <br>
-        <input type="password" v-model="password" required>
+        <input type="password" placeholder="Password" v-model="password" required>
         <br>
         <br>
         <p v-if="errorMsg"> {{ errorMsg }} </p>
@@ -21,18 +17,25 @@
 <script>
     import { ref } from "vue"
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-    const email = ref("")
-    const password = ref("")
-    const errorMsg = ref("")
 
     export default {
+        data() {
+            return {
+                email: ref(""),
+                password: ref(""),
+                errorMsg: ref("")
+            }
+        },
         methods: {
             login() {
-                signInWithEmailAndPassword(getAuth(), email.value, password.value)
+                signInWithEmailAndPassword(getAuth(), this.email, this.password)
                 .then((data) => {
                     console.log("Successfully signed in")
                 })
                 .catch((error) => {
+                    console.log(error.code)
+                    console.log(error.message)
+
                     switch (error.code) {
                         case "auth/invalid-email":
                             errorMsg.value = "E-Mail non corretta"
